@@ -122,10 +122,13 @@ node clawdbot-watchdog-interactive.js
 
 | 文件 | 说明 |
 |------|------|
-| `clawdbot-watchdog-interactive.js` | 交互式监控脚本 |
-| `start.bat` | 启动脚本（双击运行） |
+| `clawdbot-watchdog-interactive.js` | 交互式监控脚本（推荐） |
+| `clawdbot-watchdog-silent.js` | 静默版监控脚本（后台运行） |
+| `start.bat` | 启动脚本（双击运行交互式版） |
+| `start-silent.bat` | 启动脚本（双击运行静默版） |
 | `stop-watchdog.js` | 停止监控脚本 |
 | `watchdog-starter.js` | 后台启动器 |
+| `cleanup-workspace.bat` | 清理 workspace 中旧文件 |
 | `watchdog.log` | 恢复日志（运行时生成） |
 | `README.md` | 本文件 |
 
