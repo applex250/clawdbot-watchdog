@@ -30,12 +30,8 @@
 const CLASH_API = {
   host: '127.0.0.1',
   port: '9097',        // 改成你的 Clash Verge API 端口
-  secret: 'haiwuwuwu'  // 如果有密钥，填在这里
+  secret: '你的密钥'  // 如果有密钥，填在这里
 };
-
-// WhatsApp 通知配置
-const WHATSAPP_ENABLED = true;  // 启用 WhatsApp 通知
-const WHATSAPP_TARGET = '5625001745';  // 你的手机号
 ```
 
 ### 3. 启动监控
@@ -131,8 +127,7 @@ node clawdbot-watchdog-interactive.js
 | `CLASH_API.host` | 127.0.0.1 | Clash API 地址 |
 | `CLASH_API.port` | 9097 | Clash API 端口 |
 | `CLASH_API.secret` | (空) | Clash API 密钥 |
-| `WHATSAPP_ENABLED` | true | 启用 WhatsApp 通知 |
-| `WHATSAPP_TARGET` | 5625001745 | 通知目标手机号 |
+
 
 ## 🛠️ 故障排查
 
@@ -143,15 +138,11 @@ node clawdbot-watchdog-interactive.js
 3. 手动刷新 Clash 订阅
 4. 运行 `clawdbot gateway status` 检查状态
 
-### WhatsApp 通知不工作
 
-1. 检查 WhatsApp 是否已连接：`clawdbot channels status`
-2. 检查 WHATSAPP_ENABLED 是否为 true
-3. 检查 WHATSAPP_TARGET 是否正确
 
 ### 监控不断重启
 
-1. 检查 Gateway 端口 16666 是否被占用
+1. 检查 Gateway 端口  是否被占用
 2. 检查网络连接是否稳定
 3. 查看日志文件 `watchdog.log` 了解详细错误
 
