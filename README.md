@@ -21,16 +21,6 @@
 
 ## 🚀 快速开始
 
-### 1. 配置 WhatsApp 通知
-
-首次使用需要配置 WhatsApp：
-
-```bash
-clawdbot channels login --channel whatsapp
-```
-
-扫描显示的二维码链接 WhatsApp。
-
 ### 2. 修改配置
 
 编辑 `clawdbot-watchdog-interactive.js` 中的配置：
