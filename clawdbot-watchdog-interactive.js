@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * Clawdbot Gateway 监控守护脚本 (交互版)
+ * OpenClaw Gateway 监控守护脚本 (交互版)
  * 功能：
- * 1. 监控 clawdbot gateway 进程
+ * 1. 监控 openclaw gateway 进程
  * 2. 如果挂掉，自动刷新 Clash Verge 订阅
- * 3. 重新启动 clawdbot gateway
+ * 3. 重新启动 openclaw gateway
  * 4. 可交互控制（输入 quit 退出）
  */
 
@@ -71,7 +71,7 @@ function sendWhatsApp(message) {
   const timestamp = new Date().toLocaleString('zh-CN');
   const fullMessage = `[${timestamp}] ${message}`;
 
-  exec(`clawdbot message send --channel whatsapp --to ${WHATSAPP_TARGET} "${fullMessage}"`, (error, stdout, stderr) => {
+  exec(`openclaw message send --channel whatsapp --to ${WHATSAPP_TARGET} "${fullMessage}"`, (error, stdout, stderr) => {
     if (error) {
       console.error(`[${getCurrentTime()}] ❌ WhatsApp 发送失败:`, error.message);
     } else {
@@ -95,15 +95,15 @@ function execCommand(cmd) {
   });
 }
 
-// 检查 clawdbot gateway 是否运行
+// 检查 openclaw gateway 是否运行
 async function isGatewayRunning() {
   try {
     // 方法1: 检查端口
     const portCheck = await execCommand('netstat -ano | findstr :16666 | findstr LISTENING');
     if (portCheck) return true;
 
-    // 方法2: 使用 clawdbot gateway status 检查
-    const output = await execCommand('clawdbot gateway status');
+    // 方法2: 使用 openclaw gateway status 检查
+    const output = await execCommand('openclaw gateway status');
     return output.includes('ok') || output.includes('running') || output.includes('active');
   } catch (error) {
     return false;
@@ -149,15 +149,15 @@ async function refreshClashSubscription() {
   });
 }
 
-// 启动 clawdbot gateway
+// 启动 openclaw gateway
 async function startGateway() {
-  console.log(`\x1B[36m[${getCurrentTime()}] 🚀 正在启动 clawdbot gateway...\x1B[0m`);
+  console.log(`\x1B[36m[${getCurrentTime()}] 🚀 正在启动 openclaw gateway...\x1B[0m`);
   try {
-    const output = await execCommand('clawdbot gateway start');
-    console.log(`\x1B[32m[${getCurrentTime()}] ✅ clawdbot gateway 启动命令已执行\x1B[0m`);
+    const output = await execCommand('openclaw gateway start');
+    console.log(`\x1B[32m[${getCurrentTime()}] ✅ openclaw gateway 启动命令已执行\x1B[0m`);
     console.log(`\x1B[90m[${getCurrentTime()}] 📋 输出: ${output}\x1B[0m`);
     // 等待6秒让它启动
-    await new Promise(resolve => setTimeout(resolve, 30000));
+    await new Promise(resolve => setTimeout(resolve, 6000));
     return true;
   } catch (error) {
     console.error(`\x1B[31m[${getCurrentTime()}] ❌ 启动失败:\x1B[0m`, error.message);
@@ -204,7 +204,7 @@ function showStatus() {
   const recoveryStars = '⭐'.repeat(Math.min(recoveryCount, 5));
 
   console.log('\x1B[36m╔══════════════════════════════════════════════════════════╗\x1B[0m');
-  console.log('\x1B[36m║\x1B[33m   🐕 Clawdbot Gateway 监控守护进程 (交互版)\x1B[36m           ║\x1B[0m');
+  console.log('\x1B[36m║\x1B[33m   🐕 OpenClaw Gateway 监控守护进程 (交互版)\x1B[36m           ║\x1B[0m');
   console.log('\x1B[36m╚══════════════════════════════════════════════════════════╝\x1B[0m\n');
 
   console.log('\x1B[36m📊 运行状态\x1B[0m');
@@ -237,17 +237,17 @@ async function recover() {
   clearScreen();
 
   console.log('\n' + '\x1B[90m' + '='.repeat(60) + '\x1B[0m');
-  console.log(`\x1B[31m[${getCurrentTime()}] ⚠️ 检测到 clawdbot gateway 已停止\x1B[0m`);
+  console.log(`\x1B[31m[${getCurrentTime()}] ⚠️ 检测到 openclaw gateway 已停止\x1B[0m`);
   console.log(`\x1B[33m[${getCurrentTime()}] 🔧 开始恢复流程...\x1B[0m`);
   console.log(`\x1B[90m[${getCurrentTime()}] 📊 当前连续失败: ${consecutiveFailures}/${MAX_FAILURES}\x1B[0m`);
   console.log('\x1B[90m' + '='.repeat(60) + '\x1B[0m\n');
 
   // 发送 WhatsApp 通知
-  sendWhatsApp(`⚠️ Clawdbot Gateway 已停止\n🔧 开始恢复... (${consecutiveFailures + 1}/${MAX_FAILURES})`);
+  sendWhatsApp(`⚠️ OpenClaw Gateway 已停止\n🔧 开始恢复... (${consecutiveFailures + 1}/${MAX_FAILURES})`);
 
   // 写入日志
   writeLog('═════════════════════════════════════════════════════════════');
-  writeLog('⚠️ 检测到 clawdbot gateway 已停止');
+  writeLog('⚠️ 检测到 openclaw gateway 已停止');
   writeLog(`🔧 开始恢复流程...`);
   writeLog(`📊 当前连续失败: ${consecutiveFailures}/${MAX_FAILURES}`);
   writeLog(`📊 总检查次数: ${checkCount}`);
@@ -270,7 +270,7 @@ async function recover() {
     console.log('   1. 检查网络连接');
     console.log('   2. 检查 Clash Verge 是否正常运行');
     console.log('   3. 手动刷新 Clash 订阅');
-    console.log('   4. 手动启动: clawdbot gateway start');
+    console.log('   4. 手动启动: openclaw gateway start');
     console.log('   5. 问题解决后，输入 "check" 验证状态\n');
 
     console.log('\x1B[90m' + '='.repeat(60) + '\x1B[0m');
@@ -291,12 +291,12 @@ async function recover() {
     writeLog('   1. 检查网络连接');
     writeLog('   2. 检查 Clash Verge 是否正常运行');
     writeLog('   3. 手动刷新 Clash 订阅');
-    writeLog('   4. 手动启动: clawdbot gateway start');
+    writeLog('   4. 手动启动: openclaw gateway start');
     writeLog('   5. 问题解决后，输入 "check" 验证状态');
     writeLog('═════════════════════════════════════════════════════════════');
 
     // 发送 WhatsApp 通知
-    sendWhatsApp(`❌ Clawdbot Gateway 恢复失败！\n\n🛑 已达到最大重试次数 (${MAX_FAILURES})\n📊 总检查次数: ${checkCount}\n⏱️ 运行时长: ${Math.floor((Date.now() - startTime) / 1000)} 秒\n\n💡 请手动检查并重启！`);
+    sendWhatsApp(`❌ OpenClaw Gateway 恢复失败！\n\n🛑 已达到最大重试次数 (${MAX_FAILURES})\n📊 总检查次数: ${checkCount}\n⏱️ 运行时长: ${Math.floor((Date.now() - startTime) / 1000)} 秒\n\n💡 请手动检查并重启！`);
 
     shouldStop = true;
     return;
@@ -320,7 +320,7 @@ async function recover() {
   await new Promise(resolve => setTimeout(resolve, 3000));
 
   // 步骤 2: 启动 gateway
-  writeLog(`🚀 步骤 2/2: 启动 clawdbot gateway...`);
+  writeLog(`🚀 步骤 2/2: 启动 openclaw gateway...`);
   const startSuccess = await startGateway();
 
   let recoveryOk = false;
@@ -329,13 +329,13 @@ async function recover() {
     // 再次检查
     const running = await isGatewayRunning();
     if (running) {
-      console.log(`\n\x1B[32m[${getCurrentTime()}] 🎉 恢复成功！clawdbot gateway 已上线\x1B[0m\n`);
+      console.log(`\n\x1B[32m[${getCurrentTime()}] 🎉 恢复成功！openclaw gateway 已上线\x1B[0m\n`);
       recoveryOk = true;
       writeLog(``);
-      writeLog(`🎉 恢复成功！clawdbot gateway 已上线`);
+      writeLog(`🎉 恢复成功！openclaw gateway 已上线`);
 
       // 发送 WhatsApp 通知
-      sendWhatsApp(`✅ Clawdbot Gateway 已恢复上线！\n🔄 恢复次数: ${consecutiveFailures}`);
+      sendWhatsApp(`✅ OpenClaw Gateway 已恢复上线！\n🔄 恢复次数: ${consecutiveFailures}`);
     } else {
       console.log(`\n\x1B[33m[${getCurrentTime()}] ⚠️ 启动命令已执行，但状态检查失败\x1B[0m\n`);
       writeLog(``);
@@ -375,7 +375,7 @@ async function recover() {
 async function watch() {
   // 清空日志文件
   clearLog();
-  writeLog('🐕 Clawdbot 守护进程已启动');
+  writeLog('🐕 OpenClaw 守护进程已启动');
   writeLog(`📡 检查间隔: ${CHECK_INTERVAL} 秒`);
   writeLog(`🌐 Clash API: ${CLASH_API.host}:${CLASH_API.port}`);
   writeLog('');

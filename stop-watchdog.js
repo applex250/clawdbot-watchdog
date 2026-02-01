@@ -10,7 +10,7 @@ exec('tasklist', (error, stdout) => {
   let found = false;
 
   for (const line of lines) {
-    if (line.includes('node.exe') && line.includes('clawdbot-watchdog')) {
+    if (line.includes('node.exe') && line.includes('openclaw-watchdog')) {
       const parts = line.trim().split(/\s+/);
       const pid = parts[1];
       console.log(`🔍 发现监控进程 PID: ${pid}`);

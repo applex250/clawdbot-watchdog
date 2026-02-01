@@ -1,6 +1,6 @@
-# Clawdbot Gateway Watchdog - 交互式监控守护进程
+# OpenClaw Gateway Watchdog - 交互式监控守护进程
 
-一个用于监控和自动恢复 Clawdbot Gateway 服务的交互式守护脚本。
+一个用于监控和自动恢复 OpenClaw Gateway 服务的交互式守护脚本。
 
 ## ✨ 特性
 
@@ -17,7 +17,7 @@
 - Windows 10/11
 - Node.js 18+
 - Clash Verge (用于代理管理)
-- Clawdbot CLI (安装了 WhatsApp 通道)
+- OpenClaw CLI (安装了 WhatsApp 通道)
 
 ## 🚀 快速开始
 
@@ -26,14 +26,14 @@
 首次使用需要配置 WhatsApp：
 
 ```bash
-clawdbot channels login --channel whatsapp
+openclaw channels login --channel whatsapp
 ```
 
 扫描显示的二维码链接 WhatsApp。
 
 ### 2. 修改配置
 
-编辑 `clawdbot-watchdog-interactive.js` 中的配置：
+编辑 `openclaw-watchdog-interactive.js` 中的配置：
 
 ```javascript
 // Clash Verge API 配置
@@ -53,7 +53,7 @@ const WHATSAPP_TARGET = '5625001745';  // 你的手机号
 双击 `start.bat` 或在命令行中运行：
 
 ```bash
-node clawdbot-watchdog-interactive.js
+node openclaw-watchdog-interactive.js
 ```
 
 ## 🎮 交互式命令
@@ -97,19 +97,19 @@ node clawdbot-watchdog-interactive.js
 
 ### 掉线通知
 ```
-⚠️ Clawdbot Gateway 已停止
+⚠️ OpenClaw Gateway 已停止
 🔧 开始恢复... (1/5)
 ```
 
 ### 恢复成功
 ```
-✅ Clawdbot Gateway 已恢复上线！
+✅ OpenClaw Gateway 已恢复上线！
 🔄 恢复次数: 0
 ```
 
 ### 达到最大重试
 ```
-❌ Clawdbot Gateway 恢复失败！
+❌ OpenClaw Gateway 恢复失败！
 
 🛑 已达到最大重试次数 (5)
 📊 总检查次数: 15
@@ -122,8 +122,8 @@ node clawdbot-watchdog-interactive.js
 
 | 文件 | 说明 |
 |------|------|
-| `clawdbot-watchdog-interactive.js` | 交互式监控脚本（推荐） |
-| `clawdbot-watchdog-silent.js` | 静默版监控脚本（后台运行） |
+| `openclaw-watchdog-interactive.js` | 交互式监控脚本（推荐） |
+| `openclaw-watchdog-silent.js` | 静默版监控脚本（后台运行） |
 | `start.bat` | 启动脚本（双击运行交互式版） |
 | `start-silent.bat` | 启动脚本（双击运行静默版） |
 | `stop-watchdog.js` | 停止监控脚本 |
@@ -151,11 +151,11 @@ node clawdbot-watchdog-interactive.js
 1. 检查 Clash Verge 是否正常运行
 2. 检查 Clash 订阅是否有效
 3. 手动刷新 Clash 订阅
-4. 运行 `clawdbot gateway status` 检查状态
+4. 运行 `openclaw gateway status` 检查状态
 
 ### WhatsApp 通知不工作
 
-1. 检查 WhatsApp 是否已连接：`clawdbot channels status`
+1. 检查 WhatsApp 是否已连接：`openclaw channels status`
 2. 检查 WHATSAPP_ENABLED 是否为 true
 3. 检查 WHATSAPP_TARGET 是否正确
 
@@ -169,7 +169,7 @@ node clawdbot-watchdog-interactive.js
 
 ```
 ═════════════════════════════════════════════════════════════
-⚠️ 检测到 clawdbot gateway 已停止
+⚠️ 检测到 openclaw gateway 已停止
 🔧 开始恢复流程...
 📊 当前连续失败: 0/5
 📊 总检查次数: 12
@@ -178,9 +178,9 @@ node clawdbot-watchdog-interactive.js
 🔄 步骤 1/2: 刷新 Clash 订阅...
 ✅ Clash 订阅刷新成功
 ⏳ 等待 3 秒让 Clash 更新完成...
-🚀 步骤 2/2: 启动 clawdbot gateway...
+🚀 步骤 2/2: 启动 openclaw gateway...
 
-🎉 恢复成功！clawdbot gateway 已上线
+🎉 恢复成功！openclaw gateway 已上线
 ✅ 连续失败计数已重置: 0
 ═════════════════════════════════════════════════════════════
 ```

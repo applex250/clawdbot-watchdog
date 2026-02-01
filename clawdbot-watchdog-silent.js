@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * Clawdbot Gateway 监控守护脚本
+ * OpenClaw Gateway 监控守护脚本
  * 功能：
- * 1. 监控 clawdbot gateway 进程
+ * 1. 监控 openclaw gateway 进程
  * 2. 如果挂掉，自动刷新 Clash Verge 订阅
- * 3. 重新启动 clawdbot gateway
+ * 3. 重新启动 openclaw gateway
  */
 
 const { exec, spawn } = require('child_process');
@@ -65,7 +65,7 @@ function sendWhatsApp(message) {
   const timestamp = new Date().toLocaleString('zh-CN');
   const fullMessage = `[${timestamp}] ${message}`;
 
-  exec(`clawdbot message send --channel whatsapp --to ${WHATSAPP_TARGET} "${fullMessage}"`, (error, stdout, stderr) => {
+  exec(`openclaw message send --channel whatsapp --to ${WHATSAPP_TARGET} "${fullMessage}"`, (error, stdout, stderr) => {
     if (error) {
       console.error(`[${new Date().toLocaleString('zh-CN')}] ❌ WhatsApp 发送失败:`, error.message);
     } else {
@@ -89,15 +89,15 @@ function execCommand(cmd) {
   });
 }
 
-// 检查 clawdbot gateway 是否运行
+// 检查 openclaw gateway 是否运行
 async function isGatewayRunning() {
   try {
     // 方法1: 检查进程是否在监听端口
     const portCheck = await execCommand('netstat -ano | findstr :16666 | findstr LISTENING');
     if (portCheck) return true;
 
-    // 方法2: 使用 clawdbot gateway status 检查
-    const output = await execCommand('clawdbot gateway status');
+    // 方法2: 使用 openclaw gateway status 检查
+    const output = await execCommand('openclaw gateway status');
     return output.includes('ok') || output.includes('running') || output.includes('active');
   } catch (error) {
     return false;
@@ -145,12 +145,12 @@ async function refreshClashSubscription() {
   });
 }
 
-// 启动 clawdbot gateway
+// 启动 openclaw gateway
 async function startGateway() {
-  console.log(`[${new Date().toLocaleString('zh-CN')}] 🚀 正在启动 clawdbot gateway...`);
+  console.log(`[${new Date().toLocaleString('zh-CN')}] 🚀 正在启动 openclaw gateway...`);
   try {
-    const output = await execCommand('clawdbot gateway start');
-    console.log(`[${new Date().toLocaleString('zh-CN')}] ✅ clawdbot gateway 启动命令已执行`);
+    const output = await execCommand('openclaw gateway start');
+    console.log(`[${new Date().toLocaleString('zh-CN')}] ✅ openclaw gateway 启动命令已执行`);
     console.log(`[${new Date().toLocaleString('zh-CN')}] 📋 输出: ${output}`);
     // 等待6秒让它启动
     await new Promise(resolve => setTimeout(resolve, 6000));
@@ -165,17 +165,17 @@ async function startGateway() {
 // 恢复流程
 async function recover() {
   console.log(`\n${'='.repeat(50)}`);
-  console.log(`[${new Date().toLocaleString('zh-CN')}] ⚠️ 检测到 clawdbot gateway 已停止`);
+  console.log(`[${new Date().toLocaleString('zh-CN')}] ⚠️ 检测到 openclaw gateway 已停止`);
   console.log(`[${new Date().toLocaleString('zh-CN')}] 🔧 开始恢复流程...`);
   console.log(`[${new Date().toLocaleString('zh-CN')}] 📊 当前连续失败: ${consecutiveFailures}/${MAX_FAILURES}`);
   console.log(`${'='.repeat(50)}\n`);
 
   // 发送 WhatsApp 通知
-  sendWhatsApp(`⚠️ Clawdbot Gateway 已停止\n🔧 开始恢复... (${consecutiveFailures + 1}/${MAX_FAILURES})`);
+  sendWhatsApp(`⚠️ OpenClaw Gateway 已停止\n🔧 开始恢复... (${consecutiveFailures + 1}/${MAX_FAILURES})`);
 
   // 写入日志
   writeLog('═════════════════════════════════════════════════════════════');
-  writeLog('⚠️ 检测到 clawdbot gateway 已停止');
+  writeLog('⚠️ 检测到 openclaw gateway 已停止');
   writeLog(`🔧 开始恢复流程...`);
   writeLog(`📊 当前连续失败: ${consecutiveFailures}/${MAX_FAILURES}`);
 
@@ -190,7 +190,7 @@ async function recover() {
     console.log(`   检查网络连接`);
     console.log(`   检查 Clash Verge 是否正常运行`);
     console.log(`   手动刷新 Clash 订阅`);
-    console.log(`   手动启动: clawdbot gateway start\n`);
+    console.log(`   手动启动: openclaw gateway start\n`);
 
     // 写入日志
     writeLog('');
@@ -201,11 +201,11 @@ async function recover() {
     writeLog('   检查网络连接');
     writeLog('   检查 Clash Verge 是否正常运行');
     writeLog('   手动刷新 Clash 订阅');
-    writeLog('   手动启动: clawdbot gateway start');
+    writeLog('   手动启动: openclaw gateway start');
     writeLog('═════════════════════════════════════════════════════════════');
 
     // 发送 WhatsApp 通知
-    sendWhatsApp(`❌ Clawdbot Gateway 恢复失败！\n\n🛑 已达到最大重试次数 (${MAX_FAILURES})\n📊 总检查次数: ${checkCount}\n⏱️ 运行时长: ${Math.floor((Date.now() - startTime) / 1000)} 秒\n\n💡 请手动检查并重启！`);
+    sendWhatsApp(`❌ OpenClaw Gateway 恢复失败！\n\n🛑 已达到最大重试次数 (${MAX_FAILURES})\n📊 总检查次数: ${checkCount}\n⏱️ 运行时长: ${Math.floor((Date.now() - startTime) / 1000)} 秒\n\n💡 请手动检查并重启！`);
 
     process.exit(1);
   }
@@ -225,7 +225,7 @@ async function recover() {
   await new Promise(resolve => setTimeout(resolve, 3000));
 
   // 步骤 2: 启动 gateway
-  writeLog(`🚀 步骤 2/2: 启动 clawdbot gateway...`);
+  writeLog(`🚀 步骤 2/2: 启动 openclaw gateway...`);
   const startSuccess = await startGateway();
 
   let recoveryOk = false;
@@ -234,13 +234,13 @@ async function recover() {
     // 再次检查
     const running = await isGatewayRunning();
     if (running) {
-      console.log(`\n[${new Date().toLocaleString('zh-CN')}] 🎉 恢复成功！clawdbot gateway 已上线\n`);
+      console.log(`\n[${new Date().toLocaleString('zh-CN')}] 🎉 恢复成功！openclaw gateway 已上线\n`);
       recoveryOk = true;
       writeLog('');
-      writeLog(`🎉 恢复成功！clawdbot gateway 已上线`);
+      writeLog(`🎉 恢复成功！openclaw gateway 已上线`);
 
       // 发送 WhatsApp 通知
-      sendWhatsApp(`✅ Clawdbot Gateway 已恢复上线！\n🔄 恢复次数: ${consecutiveFailures}`);
+      sendWhatsApp(`✅ OpenClaw Gateway 已恢复上线！\n🔄 恢复次数: ${consecutiveFailures}`);
     } else {
       console.log(`\n[${new Date().toLocaleString('zh-CN')}] ⚠️ 启动命令已执行，但状态检查失败\n`);
       writeLog('');
@@ -274,12 +274,12 @@ async function recover() {
 async function watch() {
   // 清空日志文件
   clearLog();
-  writeLog('🐕 Clawdbot 守护进程已启动');
+  writeLog('🐕 OpenClaw 守护进程已启动');
   writeLog(`📡 检查间隔: ${CHECK_INTERVAL} 秒`);
   writeLog(`🌐 Clash API: ${CLASH_API.host}:${CLASH_API.port}`);
   writeLog('');
 
-  console.log(`[${new Date().toLocaleString('zh-CN')}] 🐕 Clawdbot 守护进程已启动`);
+  console.log(`[${new Date().toLocaleString('zh-CN')}] 🐕 OpenClaw 守护进程已启动`);
   console.log(`[${new Date().toLocaleString('zh-CN')}] 📡 检查间隔: ${CHECK_INTERVAL} 秒`);
   console.log(`[${new Date().toLocaleString('zh-CN')}] 🌐 Clash API: ${CLASH_API.host}:${CLASH_API.port}`);
   console.log(`${'='.repeat(50)}\n`);
