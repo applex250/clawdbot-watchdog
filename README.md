@@ -16,21 +16,11 @@
 - Windows 10/11
 - Node.js 18+
 - Clash Verge (用于代理管理)
-- OpenClaw CLI (安装了 WhatsApp 通道)
+- OpenClaw CLI
 
 ## 🚀 快速开始
 
-### 1. 配置 WhatsApp 通知
-
-首次使用需要配置 WhatsApp：
-
-```bash
-openclaw channels login --channel whatsapp
-```
-
-扫描显示的二维码链接 WhatsApp。
-
-### 2. 修改配置
+### 1. 修改配置
 
 编辑 `openclaw-watchdog-interactive.js` 中的配置：
 
@@ -43,7 +33,7 @@ const CLASH_API = {
 };
 ```
 
-### 3. 启动监控
+### 2. 启动监控
 
 双击 `start.bat` 或在命令行中运行：
 
@@ -88,31 +78,6 @@ node openclaw-watchdog-interactive.js
       继续监控      ≥5次则停止
 ```
 
-## 📱 WhatsApp 通知
-
-### 掉线通知
-```
-⚠️ OpenClaw Gateway 已停止
-🔧 开始恢复... (1/5)
-```
-
-### 恢复成功
-```
-✅ OpenClaw Gateway 已恢复上线！
-🔄 恢复次数: 0
-```
-
-### 达到最大重试
-```
-❌ OpenClaw Gateway 恢复失败！
-
-🛑 已达到最大重试次数 (5)
-📊 总检查次数: 15
-⏱️ 运行时长: 450 秒
-
-💡 请手动检查并重启！
-```
-
 ## 📁 文件说明
 
 | 文件 | 说明 |
@@ -146,12 +111,6 @@ node openclaw-watchdog-interactive.js
 2. 检查 Clash 订阅是否有效
 3. 手动刷新 Clash 订阅
 4. 运行 `openclaw gateway status` 检查状态
-
-### WhatsApp 通知不工作
-
-1. 检查 WhatsApp 是否已连接：`openclaw channels status`
-2. 检查 WHATSAPP_ENABLED 是否为 true
-3. 检查 WHATSAPP_TARGET 是否正确
 
 ### 监控不断重启
 
